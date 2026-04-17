@@ -1,0 +1,6 @@
+FROM redpandadata/redpanda:latest
+
+WORKDIR /app
+COPY create_topic.sh /app/create_topic.sh
+
+CMD ["redpanda", "start", "--overprovisioned", "--smp", "1", "--memory", "1G", "--reserve-memory", "0M", "--node-id", "0", "--check=false", "--kafka-addr", "PLAINTEXT://0.0.0.0:9092", "--advertise-kafka-addr", "PLAINTEXT://redpanda:9092"]

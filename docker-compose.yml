@@ -1,0 +1,53 @@
+services:
+  redpanda:
+    build:
+      context: .
+      dockerfile: Dockerfile.redpanda
+    container_name: redpanda
+    ports:
+      - "9092:9092"
+      - "9644:9644"
+    volumes:
+      - redpanda_data:/var/lib/redpanda/data
+    healthcheck:
+      test: ["CMD-SHELL", "rpk cluster info --brokers localhost:9092 >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+
+  topic-init:
+    build:
+      context: .
+      dockerfile: Dockerfile.redpanda
+    container_name: topic-init
+    depends_on:
+      redpanda:
+        condition: service_healthy
+    command: ["/bin/sh", "/app/create_topic.sh"]
+    restart: "no"
+
+  producer:
+    build:
+      context: .
+      dockerfile: Dockerfile.producer
+    container_name: producer
+    depends_on:
+      redpanda:
+        condition: service_healthy
+    command: ["sh", "-c", "sleep 15 && python /app/producer_tickets.py"]
+
+  spark:
+    build:
+      context: .
+      dockerfile: Dockerfile.spark
+    container_name: spark
+    depends_on:
+      redpanda:
+        condition: service_healthy
+    command: ["sh", "-c", "sleep 20 && /app/run_spark.sh"]
+    volumes:
+      - ./output:/app/output
+      - ./checkpoints:/app/checkpoints
+
+volumes:
+  redpanda_data:

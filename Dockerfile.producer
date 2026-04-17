@@ -1,0 +1,11 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY requirements_producer.txt .
+RUN pip install --no-cache-dir -r requirements_producer.txt
+
+COPY producer_tickets.py wait_for_redpanda.sh ./
+RUN chmod +x /app/wait_for_redpanda.sh
+
+CMD ["sh", "-c", "/app/wait_for_redpanda.sh redpanda 9092 && python /app/producer_tickets.py"]
