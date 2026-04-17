@@ -88,6 +88,7 @@ batch_1/
 batch_2/
 ...
 
+```
 
 ## 🏗️ Architecture du pipeline
 
