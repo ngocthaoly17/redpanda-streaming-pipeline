@@ -158,3 +158,21 @@ flowchart LR
     O --> P
 ```
 
+## 🏗️ Architecture du pipeline
+
+```mermaid
+flowchart LR
+    A[producer_tickets.py<br/>Génération de tickets JSON] --> B[Redpanda<br/>Topic client_tickets]
+    B --> C[PySpark Streaming<br/>spark_redpanda_analysis.py]
+
+    C --> D[Enrichissement des tickets<br/>Ajout support_team]
+    
+    D --> E[output/enriched_tickets<br/>Parquet]
+    D --> F[Agrégation par type]
+    D --> G[Agrégation par priorité]
+    D --> H[Agrégation par équipe]
+
+    F --> I[output/tickets_by_type]
+    G --> J[output/tickets_by_priority]
+    H --> K[output/tickets_by_team]
+```
