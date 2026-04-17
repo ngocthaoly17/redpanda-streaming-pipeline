@@ -90,7 +90,7 @@ batch_2/
 
 ```
 
-## 🏗️ Architecture du pipeline
+## 🏗️ Architecture du pipeline avec Mermaid
 
 ```mermaid
 flowchart LR
