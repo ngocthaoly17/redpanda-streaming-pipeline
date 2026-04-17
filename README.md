@@ -106,7 +106,9 @@ flowchart LR
     M --> P
     N --> P
     O --> P
+```
 
+```
 ---
 
 ## Partie lancement corrigée
