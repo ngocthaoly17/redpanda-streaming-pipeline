@@ -38,7 +38,57 @@ redpanda_project_dockerized/
 
 ---
 
-## Diagramme Mermaid adapté à ton vrai pipeline
+## Partie lancement corrigée
+
+```markdown
+## ▶️ Exécution du projet
+
+### 1. Démarrer les services
+
+Depuis le dossier `redpanda_project_dockerized`, lancer :
+
+```bash
+docker compose up --build
+
+---
+
+## Partie résultats attendus plus juste
+
+```markdown
+## 📊 Résultats produits
+
+Le pipeline génère deux types de sorties :
+
+### 1. Données enrichies
+Les tickets enrichis sont enregistrés en **Parquet** dans :
+
+- `output/enriched_tickets`
+
+Chaque ticket contient notamment :
+- `ticket_id`
+- `client_id`
+- `created_at`
+- `request`
+- `request_type`
+- `priority`
+- `support_team`
+
+### 2. Agrégats par batch
+Des statistiques sont générées en **JSON** dans :
+
+- `output/tickets_by_type`
+- `output/tickets_by_priority`
+- `output/tickets_by_team`
+
+Chaque batch est stocké dans un sous-dossier du type :
+
+```text
+batch_0/
+batch_1/
+batch_2/
+...
+
+
 
 ```markdown
 ## Architecture du pipeline
@@ -108,55 +158,3 @@ flowchart LR
     O --> P
 ```
 
-```
----
-
-## Partie lancement corrigée
-
-```markdown
-## ▶️ Exécution du projet
-
-### 1. Démarrer les services
-
-Depuis le dossier `redpanda_project_dockerized`, lancer :
-
-```bash
-docker compose up --build
-
----
-
-## Partie résultats attendus plus juste
-
-```markdown
-## 📊 Résultats produits
-
-Le pipeline génère deux types de sorties :
-
-### 1. Données enrichies
-Les tickets enrichis sont enregistrés en **Parquet** dans :
-
-- `output/enriched_tickets`
-
-Chaque ticket contient notamment :
-- `ticket_id`
-- `client_id`
-- `created_at`
-- `request`
-- `request_type`
-- `priority`
-- `support_team`
-
-### 2. Agrégats par batch
-Des statistiques sont générées en **JSON** dans :
-
-- `output/tickets_by_type`
-- `output/tickets_by_priority`
-- `output/tickets_by_team`
-
-Chaque batch est stocké dans un sous-dossier du type :
-
-```text
-batch_0/
-batch_1/
-batch_2/
-...
